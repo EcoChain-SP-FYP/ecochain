@@ -15,9 +15,13 @@ class simSensor:
         return lightLevel
     
     def moisture():
+        moisture = round(random.uniform(0, 100), 2)
+        #time.sleep(2)
         return moisture
 
     def CO2():
+        co2 = round(random.uniform(50, 100), 2)
+        #time.sleep(2)
         return co2
 
 if __name__ == "__main__":
@@ -26,6 +30,8 @@ if __name__ == "__main__":
             print(simSensor.light()) # high = dark, low = bright
             print(simSensor.DHT22()[0]) # data received is in tuple, use [] to specify which value
             print(simSensor.DHT22()[1])
+            print(simSensor.moisture())
+            print(simSensor.CO2())
             time.sleep(2)
     except Exception as e:
         print(e)
