@@ -1,4 +1,5 @@
 import random
+from random import randint
 from decimal import *
 import time
 
@@ -15,6 +16,13 @@ class simSensor:
         return lightLevel
     
     def moisture():
+        mlvl = randint(260,520)
+        if(mlvl<=350):
+            moisture = "water"
+        elif (mlvl<=530 and mlvl>350):
+            moisture = "wet"
+        else:
+            moisture = "dry"
         return moisture
 
     def CO2():
@@ -26,6 +34,8 @@ if __name__ == "__main__":
             print(simSensor.light()) # high = dark, low = bright
             print(simSensor.DHT22()[0]) # data received is in tuple, use [] to specify which value
             print(simSensor.DHT22()[1])
+            print(simSensor.moisture())
+            
             time.sleep(2)
     except Exception as e:
         print(e)
