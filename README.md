@@ -6,3 +6,9 @@ By basing the project around blockchains and the use of a Raspberry Pi, it will 
 Users will have an easier time to keep track of the state of their land and can also be easily notified when a certain aspect of the land needs to be taken care of.
 
 Blockchain for Edge Devices Security Evaluation - Final Year Project in Singapore Polytechnic 
+
+## How to use
+### Install Python dependencies
+```
+pip install -r requirements.txt
+```
