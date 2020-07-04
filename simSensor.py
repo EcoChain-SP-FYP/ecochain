@@ -17,9 +17,9 @@ class simSensor:
     
     def moisture():
         mlvl = randint(260,520)
-        if(mlvl<=350):
+        if(mlvl<=440 and mlvl>360):
             moisture = "water"
-        elif (mlvl<=530 and mlvl>350):
+        elif (mlvl<=520 and mlvl>440):
             moisture = "wet"
         else:
             moisture = "dry"
