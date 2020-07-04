@@ -1,4 +1,5 @@
 import random
+from random import randint
 from decimal import *
 import time
 
@@ -15,8 +16,15 @@ class simSensor:
         return lightLevel
     
     def moisture():
-        moisture = round(random.uniform(0, 100), 2)
+        mlvl = randint(260,520)
+        if(mlvl<=440 and mlvl>360):
+            moisture = "water"
+        elif (mlvl<=520 and mlvl>440):
+            moisture = "wet"
+        else:
+            moisture = "dry"
         #time.sleep(2)
+
         return moisture
 
     def CO2():
