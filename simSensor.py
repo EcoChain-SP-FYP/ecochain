@@ -1,6 +1,5 @@
 import random
 from random import randint
-from decimal import *
 import time
 
 class simSensor:
@@ -35,11 +34,12 @@ class simSensor:
 if __name__ == "__main__":
     try:
         while True:
-            print(simSensor.light()) # high = dark, low = bright
-            print(simSensor.DHT22()[0]) # data received is in tuple, use [] to specify which value
-            print(simSensor.DHT22()[1])
-            print(simSensor.moisture())
-            print(simSensor.CO2())
+            print("Light = " + str(simSensor.light())) # high = dark, low = bright
+            print("DHTtemp = " + str(simSensor.DHT22()[0])) # data received is in tuple, use [] to specify which value
+            print("DHThumid = " + str(simSensor.DHT22()[1]))
+            print("Moisture = " + str(simSensor.moisture()))
+            print("CO2 = " + str(simSensor.CO2()))
+            print("\n")
             time.sleep(2)
     except Exception as e:
         print(e)
