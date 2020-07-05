@@ -17,8 +17,8 @@ contract Sensors {
         CO2 = CO2x;
     }
 
-    function getSensors() public pure returns (string memory DHT22tempx, string memory DHT22humidx,
-     string memory lightx, string memory moisturex, string memory CO2x) {
-        return (DHT22tempx, DHT22humidx, lightx, moisturex, CO2x);
+    function getSensors() public view returns (string memory, string memory,
+     string memory, string memory, string memory) {
+        return (DHT22temp, DHT22humid, light, moisture, CO2);
     }
 }

@@ -15,7 +15,7 @@ web3.eth.defaultAccount = web3.eth.accounts[0]
 # Path to the compiled contract JSON file
 compiled_contract_path = 'Truffle/build/contracts/Sensors.json'
 # Deployed contract address (see `migrate` command output: `contract address`)
-deployed_contract_address = '0xBa77aD8926A7a2Bb21202B321327CB4Ed872D743'
+deployed_contract_address = '0x0e08daDEbE8CBD92267Dcf0D177275C8530bF85b'
 
 with open(compiled_contract_path) as file:
     contract_json = json.load(file)  # load contract info as JSON
@@ -28,10 +28,14 @@ contract = web3.eth.contract(address=deployed_contract_address, abi=contract_abi
 #ethSensor = contract.functions.getSensors().call()
 #print(ethSensor)
 
+def getLatestTransactionInputValues():
+    ethSensor = contract.functions.getSensors().call()
+    return ethSensor
 
 if __name__ == "__main__":
     try:
         while True:
+            # get sensor values
             DHT22 = simSensor.DHT22()
             DHTtemp = str(DHT22[0])
             DHThumid = str(DHT22[1])
@@ -39,12 +43,13 @@ if __name__ == "__main__":
             moisture = str(simSensor.moisture())
             CO2 = str(simSensor.CO2())
             # executes setSensor function
-            tx_hash = contract.functions.setSensors(DHTtemp, DHThumid, light, moisture, CO2).transact()
+            #tx_hash = contract.functions.setSensors(DHTtemp, DHThumid, light, moisture, CO2).transact()
             # waits for the specified transaction (tx_hash) to be confirmed
             # (included in a mined block)
-            tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
-            print('tx_hash: {}'.format(tx_hash.hex()))
-            #print(DHT22[0], DHT22[1], light, moisture, CO2)
+            #tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
+            #print(f'tx_hash: {tx_hash.hex()}')
+            print(f"Inputs = {getLatestTransactionInputValues()}")
+
             time.sleep(2)
     except KeyboardInterrupt:
-        print("Simulation stopped")
+        print("Transactions stopped")
