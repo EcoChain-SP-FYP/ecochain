@@ -8,21 +8,27 @@ Users will have an easier time to keep track of the state of their land and can 
 Blockchain for Edge Devices Security Evaluation - Final Year Project in Singapore Polytechnic 
 
 ## How to use
-Clone repository
+1. Clone repository
 ```
 git clone https://github.com/EcoChain-SP-FYP/ecochain.git
 ```
-Install Python dependencies
+2. Install Python dependencies
 ```
 pip install -r requirements.txt
 ```
+3. Run the program
+```
+python ./main.py
+```
 
 ### Testing
-Install Truffle
+1. Install Truffle
 ```
 npm install truffle -g
 ```
-Compile & Deploy contracts
+2. Install Ganache at [Ganache Github Releases](https://github.com/trufflesuite/ganache/releases)
+
+3. Compile & Deploy contracts
 ```
 cd Truffle
 truffle migrate
