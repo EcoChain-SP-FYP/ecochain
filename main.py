@@ -28,6 +28,21 @@ contract = web3.eth.contract(address=deployed_contract_address, abi=contract_abi
 #ethSensor = contract.functions.getSensors().call()
 #print(ethSensor)
 
+def setTransactionInputValues():
+    # get sensor values
+    DHT22 = simSensor.DHT22()
+    DHTtemp = str(DHT22[0])
+    DHThumid = str(DHT22[1])
+    light = str(simSensor.light())
+    moisture = str(simSensor.moisture())
+    CO2 = str(simSensor.CO2())
+    # executes setSensor function
+    tx_hash = contract.functions.setSensors(DHTtemp, DHThumid, light, moisture, CO2).transact()
+    # waits for the specified transaction (tx_hash) to be confirmed
+    # (included in a mined block)
+    #tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
+    return tx_hash.hex()
+
 def getLatestTransactionInputValues():
     ethSensor = contract.functions.getSensors().call()
     return ethSensor
@@ -35,19 +50,7 @@ def getLatestTransactionInputValues():
 if __name__ == "__main__":
     try:
         while True:
-            # get sensor values
-            DHT22 = simSensor.DHT22()
-            DHTtemp = str(DHT22[0])
-            DHThumid = str(DHT22[1])
-            light = str(simSensor.light())
-            moisture = str(simSensor.moisture())
-            CO2 = str(simSensor.CO2())
-            # executes setSensor function
-            #tx_hash = contract.functions.setSensors(DHTtemp, DHThumid, light, moisture, CO2).transact()
-            # waits for the specified transaction (tx_hash) to be confirmed
-            # (included in a mined block)
-            #tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
-            #print(f'tx_hash: {tx_hash.hex()}')
+            print(setTransactionInputValues())
             print(f"Inputs = {getLatestTransactionInputValues()}")
 
             time.sleep(2)
