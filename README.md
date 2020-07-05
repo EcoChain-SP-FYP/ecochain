@@ -8,7 +8,22 @@ Users will have an easier time to keep track of the state of their land and can 
 Blockchain for Edge Devices Security Evaluation - Final Year Project in Singapore Polytechnic 
 
 ## How to use
-### Install Python dependencies
+Clone repository
+```
+git clone https://github.com/EcoChain-SP-FYP/ecochain.git
+```
+Install Python dependencies
 ```
 pip install -r requirements.txt
+```
+
+### Testing
+Install Truffle
+```
+npm install truffle -g
+```
+Compile & Deploy contracts
+```
+cd Truffle
+truffle migrate
 ```
