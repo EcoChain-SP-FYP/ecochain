@@ -53,16 +53,16 @@ def getLatestTransactionInputValues(contract):
 def main(blockchain_address):
     try:
         contract = initWeb3(blockchain_address)
+        print(blockchain_address)
         while True:
             #print(setTransactionInputValues())
-            print(blockchain_address)
             print(f"Inputs = {getLatestTransactionInputValues(contract)}")
             time.sleep(2)
     except Exception as e:
         print(e)
     except KeyboardInterrupt:
         print("Transactions stopped")
-        
+
 if __name__ == "__main__":
     try:
         blockchain_address = f"http://{sys.argv[1]}:7545"
