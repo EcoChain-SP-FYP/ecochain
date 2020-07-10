@@ -22,7 +22,7 @@ def moisture():
     else:
         moisture = "dry"
     # time.sleep(2)
-    return moisture
+    return moisture, mlvl
 
 def CO2():
     co2 = round(random.uniform(50, 100), 2)
@@ -35,7 +35,8 @@ if __name__ == "__main__":
             print("Light = " + str(light()))  # high = dark, low = bright
             print("DHTtemp = " + str(DHT22()[0]))  # data received is in tuple, use [] to specify which value
             print("DHThumid = " + str(DHT22()[1]))
-            print("Moisture = " + str(moisture()))
+            print("Moisture = " + str(moisture()[0]))
+            print("Moisture level = " + str(moisture()[1]))
             print("CO2 = " + str(CO2()))
             print("\n")
             time.sleep(2)
