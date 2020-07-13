@@ -17,7 +17,7 @@ def initWeb3(blockchain_address):
     # Path to the compiled contract JSON file
     compiled_contract_path = 'Truffle/build/contracts/Sensors.json'
     # Deployed contract address (see `migrate` command output: `contract address`)
-    deployed_contract_address = '0x0e08daDEbE8CBD92267Dcf0D177275C8530bF85b'
+    deployed_contract_address = '0x501e162000c6841dB81d5B7c81955D2855e190a3'
 
     with open(compiled_contract_path) as file:
         contract_json = json.load(file)  # load contract info as JSON
@@ -37,10 +37,11 @@ def setTransactionInputValues(contract):
     DHTtemp = str(DHT22[0])
     DHThumid = str(DHT22[1])
     light = str(simSensor.light())
-    moisture = str(simSensor.moisture())
+    moistureCat = str(simSensor.moisture()[0])
+    moisture = str(simSensor.moisture()[1])
     CO2 = str(simSensor.CO2())
     # executes setSensor function
-    tx_hash = contract.functions.setSensors(DHTtemp, DHThumid, light, moisture, CO2).transact()
+    tx_hash = contract.functions.setSensors(DHTtemp, DHThumid, light, moistureCat, moisture, CO2).transact()
     # waits for the specified transaction (tx_hash) to be confirmed
     # (included in a mined block)
     #tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
@@ -55,7 +56,7 @@ def main(blockchain_address):
         contract = initWeb3(blockchain_address)
         print(blockchain_address)
         while True:
-            #print(setTransactionInputValues())
+            print(setTransactionInputValues(contract))
             print(f"Inputs = {getLatestTransactionInputValues(contract)}")
             time.sleep(2)
     except Exception as e:
