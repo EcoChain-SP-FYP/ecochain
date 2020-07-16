@@ -69,5 +69,5 @@ if __name__ == "__main__":
         blockchain_address = f"http://{sys.argv[1]}:7545"
         main(blockchain_address)
     except Exception as e:
-        blockchain_address = "http://127.0.0.1:7545"
+        blockchain_address = "http://fyp-ecochain-1.local:7545"
         main(blockchain_address)

@@ -52,7 +52,7 @@ pip install -r requirements.txt
 ```
 3. Run the program
 ```
-python ./main.py
+python3 ./main.py {IP address}
 ```
 
 ### Setting up testing environment with Truffle and Ganache
