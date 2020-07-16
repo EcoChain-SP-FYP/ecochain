@@ -4,7 +4,7 @@ import random
 import sys
 from random import randint
 from web3 import Web3, HTTPProvider
-import simSensor
+from modules import simSensor
 
 def initWeb3(blockchain_address):
     # truffle development blockchain address
