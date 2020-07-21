@@ -37,5 +37,4 @@ urllib3==1.25.9
 varint==1.0.2
 web3==5.11.1
 websockets==8.1
-wincertstore==0.2
 wrapt==1.11.2

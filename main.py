@@ -6,7 +6,7 @@ from random import randint
 from web3 import Web3, HTTPProvider
 from modules import simSensor
 
-def initWeb3(blockchain_address):
+def initWeb3(blockchain_address, deployed_contract_addressx):
     # truffle development blockchain address
     #blockchain_address = 'http://127.0.0.1:7545'
     # Client instance to interact with the blockchain
@@ -17,7 +17,7 @@ def initWeb3(blockchain_address):
     # Path to the compiled contract JSON file
     compiled_contract_path = 'Truffle/build/contracts/Sensors.json'
     # Deployed contract address (see `migrate` command output: `contract address`)
-    deployed_contract_address = '0x501e162000c6841dB81d5B7c81955D2855e190a3'
+    deployed_contract_address = deployed_contract_addressx
 
     with open(compiled_contract_path) as file:
         contract_json = json.load(file)  # load contract info as JSON
@@ -51,9 +51,9 @@ def getLatestTransactionInputValues(contract):
     ethSensor = contract.functions.getSensors().call()
     return ethSensor
 
-def main(blockchain_address):
+def main(blockchain_address, deployed_contract_addressx):
     try:
-        contract = initWeb3(blockchain_address)
+        contract = initWeb3(blockchain_address, deployed_contract_addressx)
         print(blockchain_address)
         while True:
             print(setTransactionInputValues(contract))
@@ -67,7 +67,9 @@ def main(blockchain_address):
 if __name__ == "__main__":
     try:
         blockchain_address = f"http://{sys.argv[1]}:7545"
-        main(blockchain_address)
+        deployed_contract_address = str(sys.argv[2])
+        main(blockchain_address, deployed_contract_address)
     except Exception as e:
         blockchain_address = "http://fyp-ecochain-1.local:7545"
-        main(blockchain_address)
+        deployed_contract_address = str(sys.argv[2])
+        main(blockchain_address, deployed_contract_address)
