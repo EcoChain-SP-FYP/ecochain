@@ -5,8 +5,8 @@ services:
     image: ecochainfyp/ecochain
     network_mode: host
     environment: 
-      - BLOCKCHAIN_NODE_IP: 127.0.0.1 # Change appropriately
-      - DEPLOYED_CONTRACT_ADDRESS: 0x501e162000c6841dB81d5B7c81955D2855e190a3 # change appropriately
-    devices: 
-      - /dev/gpiomem:/dev/gpiomem
+      - BLOCKCHAIN_NODE_IP=127.0.0.1 # Change appropriately
+      - DEPLOYED_CONTRACT_ADDRESS=0x501e162000c6841dB81d5B7c81955D2855e190a3 # change appropriately
+    #devices: 
+    # - /dev/gpiomem:/dev/gpiomem # for raspberry pi's GPIO
     restart: unless-stopped
