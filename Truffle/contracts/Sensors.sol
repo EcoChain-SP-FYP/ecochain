@@ -5,18 +5,22 @@ contract Sensors {
     string DHT22temp;
     string DHT22humid;
     string light;
+    string moistureCat;
     string moisture;
     string CO2;
 
-    function set(string[] DHT22x, string lightx, string moisturex, string CO2x) public {
-        DHT22temp = DHT22x[0];
-        DHT22humid = DHT22x[1];
+    function setSensors(string memory DHT22tempx, string memory DHT22humidx,
+     string memory lightx, string memory moistureCatx, string memory moisturex, string memory CO2x) public {
+        DHT22temp = DHT22tempx;
+        DHT22humid = DHT22humidx;
         light = lightx;
+        moistureCat = moistureCatx;
         moisture = moisturex;
         CO2 = CO2x;
     }
 
-    function get() public view returns (int) {
-        return (DHT22temp, DHT22humid, light, moisture, CO2);
+    function getSensors() public view returns (string memory, string memory, string memory,
+     string memory, string memory, string memory) {
+        return (DHT22temp, DHT22humid, light, moistureCat, moisture, CO2);
     }
 }

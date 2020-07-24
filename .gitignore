@@ -2,6 +2,10 @@
 # Created by https://www.gitignore.io/api/flask,python,solidity,soliditytruffle
 # Edit at https://www.gitignore.io/?templates=flask,python,solidity,soliditytruffle
 
+### Custom ###
+.vscode
+
+
 ### Flask ###
 instance/*
 !instance/.gitignore
