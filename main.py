@@ -42,6 +42,6 @@ if __name__ == "__main__":
         deployed_contract_address = str(sys.argv[2])
         account = int(sys.argv[3])
         main(blockchain_address, deployed_contract_address, account)
-    except Exception as e:
+    except IndexError:
         print("ERROR: MISSING ARGUMENTS")
         print("Usage: ./main.py {IP address:port} {Contract address} {Account index}")
