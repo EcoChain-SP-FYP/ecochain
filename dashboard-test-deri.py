@@ -31,7 +31,7 @@ app.layout = html.Div(
         Dash: A web application framework for Python.
     """,
         ),
-        dcc.Graph(id="live-graph-sensors"),
+        dcc.Graph(id="live-graph-sensors", animate=True),
         dcc.Interval(id="interval-sensors", interval=2 * 1000, n_intervals=0),
     ]
 )
