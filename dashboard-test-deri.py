@@ -69,7 +69,7 @@ def updateSensor(n):
     fig.data[2].update(mode="markers+lines")
     fig.data[3].update(mode="markers+lines")
     fig.data[4].update(mode="markers+lines")
-    fig.update_layout(yaxis=dict(range=[1,10]))
+    fig.update_layout(xaxis=dict(range=[1,10]))
     return fig
 
 
