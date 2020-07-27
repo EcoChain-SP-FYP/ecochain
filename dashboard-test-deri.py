@@ -9,12 +9,17 @@ from modules.simSensor import DHT22, light, moisture, CO2
 from datetime import datetime, timedelta
 from contract import contractClass
 import sys
+from collections import deque
 
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 sensors = []
 values = []
 time = []
+
+time = deque(maxlen=65)
+values = deque(maxlen=65)
+sensors = deque(maxlen=65)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -31,7 +36,7 @@ app.layout = html.Div(
         Dash: A web application framework for Python.
     """,
         ),
-        dcc.Graph(id="live-graph-sensors", animate=True),
+        dcc.Graph(id="live-graph-sensors"),
         dcc.Interval(id="interval-sensors", interval=2 * 1000, n_intervals=0),
     ]
 )
@@ -69,7 +74,7 @@ def updateSensor(n):
     fig.data[2].update(mode="markers+lines")
     fig.data[3].update(mode="markers+lines")
     fig.data[4].update(mode="markers+lines")
-    fig.update_layout(xaxis=dict(range=[1,10]))
+    fig.update_layout(xaxis=dict(range=[1,8]))
     return fig
 
 
