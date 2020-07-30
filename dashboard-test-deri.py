@@ -17,9 +17,9 @@ sensors = []
 values = []
 time = []
 
-time = deque(maxlen=65)
-values = deque(maxlen=65)
-sensors = deque(maxlen=65)
+time = deque(maxlen=40)
+values = deque(maxlen=40)
+sensors = deque(maxlen=40)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -74,7 +74,7 @@ def updateSensor(n):
     fig.data[2].update(mode="markers+lines")
     fig.data[3].update(mode="markers+lines")
     fig.data[4].update(mode="markers+lines")
-    fig.update_layout(xaxis=dict(range=[1,8]))
+    fig.update_layout(xaxis=dict(range=[1,4]))
     return fig
 
 
