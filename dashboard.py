@@ -1,78 +1,90 @@
-# -*- coding: utf-8 -*-
-
-# Run this app with `python app.py` and
-# visit http://127.0.0.1:8050/ in your web browser.
-
-from random import randint
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output, State
-import plotly
-import plotly.graph_objs as go
-from collections import deque
-from datetime import datetime
+import plotly.express as px
+import plotly.graph_objects as go
 import pandas as pd
-import time
-import random
+from dash.dependencies import Input, Output
+from modules.simSensor import DHT22, light, moisture, CO2
+from datetime import datetime, timedelta
+from contract import contractClass
+import sys
+from collections import deque
 
+external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
-app = dash.Dash(__name__)
+sensors = []
+values = []
+time = []
 
-app_color = {"graph_bg": "#082255", "graph_line": "#007ACE"}
+time = deque(maxlen=40)
+values = deque(maxlen=40)
+sensors = deque(maxlen=40)
 
-mlvl =[]
-times = []
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-max_length = 10
+# assume you have a "long-form" data frame
+# see https://plotly.com/python/px-arguments/ for more options
 
-times = deque(maxlen=max_length)
-mlvl = deque(maxlen=max_length)
 
 app.layout = html.Div(
-    html.Div([
-        dcc.Graph(id='live-graph'),
-        dcc.Interval(
-            id='interval-component',
-            interval=10*1000, # in milliseconds
-            n_intervals=0
-        )
-    ])
+    children=[
+        html.H1(children="Sensor Datas"),
+        html.Div(
+            id="Temperature",
+            children="""
+        Dash: A web application framework for Python.
+    """,
+        ),
+        dcc.Graph(id="live-graph-sensors"),
+        dcc.Interval(id="interval-sensors", interval=2 * 1000, n_intervals=0),
+    ]
 )
 
 
-def update_obd_values():
-
-    now = datetime.now()
-    current_time = now.strftime("%m/%d/%Y, %H:%M:%S")
-    #current_time = now.strftime("%H:%M:%S")
-    times.append(current_time)
-    mlvl.append(random.randrange(260,520))
-
-    return times, mlvl
-
-
-# Multiple components can update everytime interval gets fired.
-@app.callback(Output('live-graph', 'figure'),
-              [Input('interval-component', 'n_intervals')])
-def update_graph_scatter(interval):
-
-    update_obd_values()
-    print(times)
-    data = go.Scatter(
-    x=list(times),
-    y=list(mlvl),
-    name='Scatter',
-    fill="tozeroy",
-    fillcolor="#6897bb"
+@app.callback(
+    Output("live-graph-sensors", "figure"), [Input("interval-sensors", "n_intervals")]
+)
+def updateSensor(n):
+    sensorValues = contract.getLatestTransactionInputValues()
+    sensors.extend(("Temperature", "Humidity", "Light", "Moisture", "CO2"))
+    values.extend(
+        (
+            sensorValues[0],
+            sensorValues[1],
+            sensorValues[2],
+            sensorValues[4],
+            sensorValues[5],
+        )
+    )
+    time.extend(
+        (
+            sensorValues[6],
+            sensorValues[6],
+            sensorValues[6],
+            sensorValues[6],
+            sensorValues[6],
+        )
     )
 
-    layout = go.Layout(xaxis=dict(range=[min(times),max(times)]),
-                                                    yaxis=dict(range=[min(mlvl),max(mlvl)]),
-                                                    margin={'l':50,'r':1,'t':45,'b':1})
-    
-    return dict(data=[data], layout = layout)
+    df = pd.DataFrame({"Sensors": sensors, "Values": values, "Time": time})
+    fig = px.line(df, x="Time", y="Values", color="Sensors")
+    fig.data[0].update(mode="markers+lines")
+    fig.data[1].update(mode="markers+lines")
+    fig.data[2].update(mode="markers+lines")
+    fig.data[3].update(mode="markers+lines")
+    fig.data[4].update(mode="markers+lines")
+    fig.update_layout(xaxis=dict(range=[1, 4]))
+    return fig
 
 
-if __name__ == '__main__':
-    app.run_server(debug=True)
+if __name__ == "__main__":
+    # try:
+    # blockchain_address = f"http://{sys.argv[1]}"
+    # deployed_contract_address = str(sys.argv[2])
+    # account = int(sys.argv[3])
+    contract = contractClass()
+    app.run_server(debug=True, port=80)
+    # except IndexError:
+    #     print("ERROR: MISSING ARGUMENTS")
+    #     print("Usage: ./main.py {IP address:port} {Contract address} {Account index}")
