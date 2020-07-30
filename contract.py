@@ -7,13 +7,14 @@ class contractClass:
     def __init__(self):
         # read config.ini file
         config = configparser.ConfigParser()
+        configfile = "config.ini"
         try:
-            config.read("config.ini")
-            blockchain_ip = config["DEFAULT"]["Blockchain IP address"]
-            blockchain_port = config["DEFAULT"]["Blockchain port"]
+            config.read(configfile)
+            blockchain_ip = config["DEFAULT"]["Blockchain_IP_address"]
+            blockchain_port = config["DEFAULT"]["Blockchain_port"]
             self.blockchain_address = "http://" + blockchain_ip + ":" + blockchain_port
-            self.contract_address = config["DEFAULT"]["Contract address"]
-            self.default_account = int(config["DEFAULT"]["Default account"])
+            self.contract_address = config["DEFAULT"]["Contract_address"]
+            self.default_account = int(config["DEFAULT"]["Default_account"])
 
             # Client instance to interact with the blockchain
             web3 = Web3(HTTPProvider(self.blockchain_address))
@@ -35,20 +36,22 @@ class contractClass:
             self.contract = web3.eth.contract(
                 address=deployed_contract_address, abi=contract_abi
             )
-
             # Call contract function (this is not persisted to the blockchain)
             # ethSensor = contract.functions.getSensors().call()
             # print(ethSensor)
-
         except (FileNotFoundError, KeyError):
             config["DEFAULT"] = {
-                "Blockchain IP address": "172.16.0.80",
-                "Blockchain port": "7545",
-                "Contract address": "0xe794a64514dA47296749a84193015411a17BdEe1",
-                "Default account": "0",
+                "Blockchain_IP_address": "172.16.0.80",
+                "Blockchain_port": "7545",
+                "Contract_address": "0xe794a64514dA47296749a84193015411a17BdEe1",
+                "Default_account": "0",
             }
-            with open("config.ini", "w") as configfile:
-                config.write(configfile)
+            with open(configfile, "w") as config_file:
+                config.write(config_file)
+        except AttributeError:
+            print(
+                f"Config File: ({configfile}) corrupted, please delete {configfile} and reinitialize the app."
+            )
 
     def setTransactionInputValues(
         self, DHTtempx, DHThumidx, lightx, moistureCatx, moisturex, CO2x, dateTimex,
