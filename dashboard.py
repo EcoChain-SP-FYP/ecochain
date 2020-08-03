@@ -30,8 +30,8 @@ sensors = deque(maxlen=40)
 ctmvalues = deque(maxlen=3)
 ctmsensor = deque(maxlen=3)
 
-hlvalues = deque(maxlen=2)
-hlsensor = deque(maxlen=2)
+hlvalues = deque(maxlen=1)
+#hlsensor = deque(maxlen=2)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -49,7 +49,7 @@ app.layout = html.Div(
     """,
         ),
         dcc.Graph(id="live-graph-sensors"),
-        dcc.Interval(id="interval-sensors", interval=2 * 1000, n_intervals=0),
+        dcc.Interval(id="interval-sensors", interval= 5 * 1000, n_intervals=0),
         html.Div(
             id="CO2",
             children="""
@@ -57,15 +57,23 @@ app.layout = html.Div(
     """,
         ),
         dcc.Graph(id="live-graph-CO2"),
-        dcc.Interval(id="interval-CO2", interval= 6 * 1000, n_intervals=0),
+        dcc.Interval(id="interval-CO2", interval= 5 * 1000, n_intervals=0),
         html.Div(
             id="Humid",
             children="""
-        Bar chart (Humidity & Light)
+        Gauge chart (Humidity)
     """,
         ),
         dcc.Graph(id="live-graph-Humid"),
-        dcc.Interval(id="interval-Humid", interval= 6 * 1000, n_intervals=0),
+        dcc.Interval(id="interval-Humid", interval= 5 * 1000, n_intervals=0),
+        html.Div(
+            id="Light",
+            children="""
+        Gauge chart (Light)
+    """,
+        ),
+        dcc.Graph(id="live-graph-Light"),
+        dcc.Interval(id="interval-Light", interval= 5 * 1000, n_intervals=0),
     ]
 )
 
@@ -132,20 +140,31 @@ def updateco2(n):
 )
 def updatehumd(n):
     sensorValues = contract.getLatestTransactionInputValues()
-    hlvalues.extend(
-        (
-            sensorValues[1],
-            sensorValues[2],
-        )
-    )
-    hlsensor.extend(
-        (
-            "Humidity", "Light",
-        )
-    )
+    humid = sensorValues[1]
 
-    df = pd.DataFrame({"Values": hlvalues, "Sensors": hlsensor})
-    fig = px.bar(df, x="Sensors", y="Values")
+
+    fig = go.Figure(go.Indicator(
+        mode = "gauge+number",
+        value = float(humid),
+        domain = {'x': [0, 1], 'y': [0, 1]},
+        title = {'text': "Humidity"}))
+    
+    return fig
+
+@app.callback(
+    Output("live-graph-Light", "figure"), [Input("interval-Light", "n_intervals")]
+)
+def updatelight(n):
+    sensorValues = contract.getLatestTransactionInputValues()
+    light = sensorValues[2]
+
+
+    fig = go.Figure(go.Indicator(
+        mode = "gauge+number",
+        value = float(light),
+        domain = {'x': [0, 1], 'y': [0, 1]},
+        title = {'text': "Light"}))
+    
     return fig
 
 if __name__ == "__main__":

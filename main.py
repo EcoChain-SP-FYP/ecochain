@@ -31,7 +31,7 @@ def main():
                 )
             )
             print(f"Inputs = {contract.getLatestTransactionInputValues()}")
-            time.sleep(2)
+            time.sleep(5)
     # except Exception as e:
     #     print(e)
     except KeyboardInterrupt:
