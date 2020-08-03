@@ -20,18 +20,12 @@ time = []
 ctmvalues = []
 ctmsensor = []
 
-hlvalues = []
-hlsensor = []
-
 time = deque(maxlen=40)
 values = deque(maxlen=40)
 sensors = deque(maxlen=40)
 
 ctmvalues = deque(maxlen=3)
 ctmsensor = deque(maxlen=3)
-
-hlvalues = deque(maxlen=1)
-#hlsensor = deque(maxlen=2)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
