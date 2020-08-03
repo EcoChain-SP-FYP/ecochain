@@ -17,9 +17,21 @@ sensors = []
 values = []
 time = []
 
+ctmvalues = []
+ctmsensor = []
+
+hlvalues = []
+hlsensor = []
+
 time = deque(maxlen=40)
 values = deque(maxlen=40)
 sensors = deque(maxlen=40)
+
+ctmvalues = deque(maxlen=3)
+ctmsensor = deque(maxlen=3)
+
+hlvalues = deque(maxlen=2)
+hlsensor = deque(maxlen=2)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -38,6 +50,22 @@ app.layout = html.Div(
         ),
         dcc.Graph(id="live-graph-sensors"),
         dcc.Interval(id="interval-sensors", interval=2 * 1000, n_intervals=0),
+        html.Div(
+            id="CO2",
+            children="""
+        Bar chart (CO2, Temperature & Moisture)
+    """,
+        ),
+        dcc.Graph(id="live-graph-CO2"),
+        dcc.Interval(id="interval-CO2", interval= 6 * 1000, n_intervals=0),
+        html.Div(
+            id="Humid",
+            children="""
+        Bar chart (Humidity & Light)
+    """,
+        ),
+        dcc.Graph(id="live-graph-Humid"),
+        dcc.Interval(id="interval-Humid", interval= 6 * 1000, n_intervals=0),
     ]
 )
 
@@ -77,6 +105,48 @@ def updateSensor(n):
     fig.update_layout(xaxis=dict(range=[1, 4]))
     return fig
 
+@app.callback(
+    Output("live-graph-CO2", "figure"), [Input("interval-CO2", "n_intervals")]
+)
+def updateco2(n):
+    sensorValues = contract.getLatestTransactionInputValues()
+    ctmvalues.extend(
+        (
+            sensorValues[5],
+            sensorValues[0],
+            sensorValues[4],
+        )
+    )
+    ctmsensor.extend(
+        (
+            "CO2", "Temperature", "Moisture"
+        )
+    )
+
+    df = pd.DataFrame({"Values": ctmvalues, "Sensors": ctmsensor})
+    fig = px.bar(df, x="Sensors", y="Values")
+    return fig
+
+@app.callback(
+    Output("live-graph-Humid", "figure"), [Input("interval-Humid", "n_intervals")]
+)
+def updatehumd(n):
+    sensorValues = contract.getLatestTransactionInputValues()
+    hlvalues.extend(
+        (
+            sensorValues[1],
+            sensorValues[2],
+        )
+    )
+    hlsensor.extend(
+        (
+            "Humidity", "Light",
+        )
+    )
+
+    df = pd.DataFrame({"Values": hlvalues, "Sensors": hlsensor})
+    fig = px.bar(df, x="Sensors", y="Values")
+    return fig
 
 if __name__ == "__main__":
     # try:
