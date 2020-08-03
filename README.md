@@ -16,9 +16,21 @@ git clone https://github.com/EcoChain-SP-FYP/ecochain.git
 ```
 pip install -r requirements.txt
 ```
-3. Run the program.
+3. Configure config.ini
 ```
-python3 ./main.py {Blockchain IP address:port} {contract address} {account index}
+[DEFAULT]
+blockchain_ip_address = 172.16.0.80
+blockchain_port = 7545
+contract_address = 0xe794a64514dA47296749a84193015411a17BdEe1
+default_account = 0
+```
+4. Run the program.
+```
+python3 ./main.py
+# to insert data into blockchain
+# or
+python3 ./dashboard.py
+# to run webui
 ```
 
 ## Testing/Development environment with Truffle and Ganache
