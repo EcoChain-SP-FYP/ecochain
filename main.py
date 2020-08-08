@@ -32,18 +32,11 @@ def main():
             )
             print(f"Inputs = {contract.getLatestTransactionInputValues()}")
             time.sleep(5)
-    # except Exception as e:
-    #     print(e)
     except KeyboardInterrupt:
         print("Transactions stopped")
+    # except Exception as e:
+    #     print(e)
 
 
 if __name__ == "__main__":
-    # try:
-    # blockchain_address = f"http://{sys.argv[1]}"
-    # deployed_contract_address = str(sys.argv[2])
-    # account = int(sys.argv[3])
     main()
-    # except IndexError:
-    # print("ERROR: MISSING ARGUMENTS")
-    # print("Usage: ./main.py {IP address:port} {Contract address} {Account index}")

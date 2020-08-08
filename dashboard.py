@@ -29,10 +29,6 @@ ctmsensor = deque(maxlen=3)
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
-
-
 app.layout = html.Div(
     children=[
         html.H1(children="Sensor Datas"),
@@ -43,7 +39,7 @@ app.layout = html.Div(
     """,
         ),
         dcc.Graph(id="live-graph-sensors"),
-        dcc.Interval(id="interval-sensors", interval= 5 * 1000, n_intervals=0),
+        dcc.Interval(id="interval-sensors", interval=5 * 1000, n_intervals=0),
         html.Div(
             id="CO2",
             children="""
@@ -51,7 +47,7 @@ app.layout = html.Div(
     """,
         ),
         dcc.Graph(id="live-graph-CO2"),
-        dcc.Interval(id="interval-CO2", interval= 5 * 1000, n_intervals=0),
+        dcc.Interval(id="interval-CO2", interval=5 * 1000, n_intervals=0),
         html.Div(
             id="Humid",
             children="""
@@ -59,7 +55,7 @@ app.layout = html.Div(
     """,
         ),
         dcc.Graph(id="live-graph-Humid"),
-        dcc.Interval(id="interval-Humid", interval= 5 * 1000, n_intervals=0),
+        dcc.Interval(id="interval-Humid", interval=5 * 1000, n_intervals=0),
         html.Div(
             id="Light",
             children="""
@@ -67,7 +63,7 @@ app.layout = html.Div(
     """,
         ),
         dcc.Graph(id="live-graph-Light"),
-        dcc.Interval(id="interval-Light", interval= 5 * 1000, n_intervals=0),
+        dcc.Interval(id="interval-Light", interval=5 * 1000, n_intervals=0),
     ]
 )
 
@@ -107,27 +103,19 @@ def updateSensor(n):
     fig.update_layout(xaxis=dict(range=[1, 4]))
     return fig
 
+
 @app.callback(
     Output("live-graph-CO2", "figure"), [Input("interval-CO2", "n_intervals")]
 )
 def updateco2(n):
     sensorValues = contract.getLatestTransactionInputValues()
-    ctmvalues.extend(
-        (
-            sensorValues[5],
-            sensorValues[0],
-            sensorValues[4],
-        )
-    )
-    ctmsensor.extend(
-        (
-            "CO2", "Temperature", "Moisture"
-        )
-    )
+    ctmvalues.extend((sensorValues[5], sensorValues[0], sensorValues[4],))
+    ctmsensor.extend(("CO2", "Temperature", "Moisture"))
 
     df = pd.DataFrame({"Values": ctmvalues, "Sensors": ctmsensor})
     fig = px.bar(df, x="Sensors", y="Values")
     return fig
+
 
 @app.callback(
     Output("live-graph-Humid", "figure"), [Input("interval-Humid", "n_intervals")]
@@ -136,14 +124,17 @@ def updatehumd(n):
     sensorValues = contract.getLatestTransactionInputValues()
     humid = sensorValues[1]
 
+    fig = go.Figure(
+        go.Indicator(
+            mode="gauge+number",
+            value=float(humid),
+            domain={"x": [0, 1], "y": [0, 1]},
+            title={"text": "Humidity"},
+        )
+    )
 
-    fig = go.Figure(go.Indicator(
-        mode = "gauge+number",
-        value = float(humid),
-        domain = {'x': [0, 1], 'y': [0, 1]},
-        title = {'text': "Humidity"}))
-    
     return fig
+
 
 @app.callback(
     Output("live-graph-Light", "figure"), [Input("interval-Light", "n_intervals")]
@@ -152,22 +143,18 @@ def updatelight(n):
     sensorValues = contract.getLatestTransactionInputValues()
     light = sensorValues[2]
 
+    fig = go.Figure(
+        go.Indicator(
+            mode="gauge+number",
+            value=float(light),
+            domain={"x": [0, 1], "y": [0, 1]},
+            title={"text": "Light"},
+        )
+    )
 
-    fig = go.Figure(go.Indicator(
-        mode = "gauge+number",
-        value = float(light),
-        domain = {'x': [0, 1], 'y': [0, 1]},
-        title = {'text': "Light"}))
-    
     return fig
 
+
 if __name__ == "__main__":
-    # try:
-    # blockchain_address = f"http://{sys.argv[1]}"
-    # deployed_contract_address = str(sys.argv[2])
-    # account = int(sys.argv[3])
     contract = contractClass()
     app.run_server(debug=True, port=80)
-    # except IndexError:
-    #     print("ERROR: MISSING ARGUMENTS")
-    #     print("Usage: ./main.py {IP address:port} {Contract address} {Account index}")
