@@ -4,7 +4,7 @@ services:
   ecochain:
     image: ecochainfyp/ecochain
     volumes:
-      - ~/ecochain-docker/config.ini:/usr/src/app/config.ini
+      - ~/ecochain/config.ini:/usr/src/app/config.ini
     #devices:
     # - /dev/gpiomem:/dev/gpiomem # for raspberry pi's GPIO
     tty: true
@@ -14,7 +14,7 @@ services:
     image: ecochainfyp/ecochain-dash
     network_mode: host
     volumes:
-      - ~/ecochain-docker/config.ini:/usr/src/app/config.ini
+      - ~/ecochain/config.ini:/usr/src/app/config.ini
     tty: true
     restart: unless-stopped
     depends_on:
