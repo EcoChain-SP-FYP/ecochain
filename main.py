@@ -1,7 +1,4 @@
 import time
-import random
-import sys
-from random import randint
 from modules import simSensor
 from datetime import datetime
 from contract import contractClass
