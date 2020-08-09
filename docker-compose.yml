@@ -2,6 +2,7 @@ version: "3.6"
 
 services:
   ecochain:
+    container_name: ecochain
     image: ecochainfyp/ecochain
     volumes:
       - ~/ecochain/config.ini:/usr/src/app/config.ini
@@ -11,6 +12,7 @@ services:
     restart: unless-stopped
 
   dashboard:
+    container_name: ecochain-dash
     image: ecochainfyp/ecochain-dash
     network_mode: host
     volumes:
