@@ -7,12 +7,12 @@ Users will have an easier time to keep track of the state of their land and can 
 
 Blockchain for Edge Devices Security Evaluation - Final Year Project in Singapore Polytechnic 
 
-## How to use
+## How to use (Docker)
 1. Clone the repository.
 ```
 git clone https://github.com/EcoChain-SP-FYP/ecochain.git
 ```
-2. Install Python dependencies.
+2. Install Docker and Docker-Compose.
 ```
 pip install -r requirements.txt
 ```
@@ -24,13 +24,42 @@ blockchain_port = 7545
 contract_address = 0xe794a64514dA47296749a84193015411a17BdEe1
 default_account = 0
 ```
-4. Run the program.
+4. To run the stack.
+```
+docker-compose up -d
+```
+5. To run individually
+```
+docker-compose up -d ecochain
+docker-compose up -d ecochain-dash
+```
+6. To check the program output.
+```
+docker logs ecochain
+docker logs ecochain-dash
+```
+
+## How to use
+1. Clone the repository.
+```
+git clone https://github.com/EcoChain-SP-FYP/ecochain.git
+```
+2. Install Docker and Docker-Compose.
+```
+pip install -r requirements.txt
+```
+3. Configure config.ini
+```
+[DEFAULT]
+blockchain_ip_address = 172.16.0.80
+blockchain_port = 7545
+contract_address = 0xe794a64514dA47296749a84193015411a17BdEe1
+default_account = 0
+```
+4. To run the program.
 ```
 python3 ./main.py
-# to insert data into blockchain
-# or
 python3 ./dashboard.py
-# to run webui
 ```
 
 ## Testing/Development environment with Truffle and Ganache
