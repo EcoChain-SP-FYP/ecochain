@@ -157,4 +157,4 @@ def updatelight(n):
 
 if __name__ == "__main__":
     contract = contractClass()
-    app.run_server(debug=True, port=80)
+    app.run_server(port=80)
