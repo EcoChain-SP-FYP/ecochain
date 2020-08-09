@@ -79,8 +79,11 @@ truffle deploy
 1. Download the Raspberry Pi Imager at [Raspberry Pi Foundation](https://www.raspberrypi.org/downloads/).
 
 2. Run the Imager and choose the OS and SD card.
+
 ![RPi Imager](readme/rpi-imager-init.png)
+
 Then click on write and wait till the image is validated.
+
 ![RPi Imager](readme/rpi-imager-complete.png)
 
 3. In order to enable SSH and WiFi connection on the Raspberry Pi without a monitor and keyboard, we need to create some files in the SD /boot partition called 'ssh' and 'wpa_supplicant.conf' respectively.
