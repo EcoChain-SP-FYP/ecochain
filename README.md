@@ -44,7 +44,7 @@ docker logs ecochain-dash
 ```
 git clone https://github.com/EcoChain-SP-FYP/ecochain.git
 ```
-2. Install Docker and Docker-Compose.
+2. Install Python dependencies.
 ```
 pip install -r requirements.txt
 ```
