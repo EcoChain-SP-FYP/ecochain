@@ -14,7 +14,7 @@ git clone https://github.com/EcoChain-SP-FYP/ecochain.git
 ```
 2. Install Docker and Docker-Compose.
 ```
-pip install -r requirements.txt
+./setup.sh
 ```
 3. Configure config.ini
 ```
